@@ -1,5 +1,8 @@
 import json
 logueado = False # refleja en el menu si estas logueado o no. 
+class SalirIniciarSesion(Exception):
+    pass
+
 
 
 ### FUNCIONES AUXILIARES ###
@@ -42,27 +45,25 @@ def registrar_usuario():
     confirma la contraseña, y se fijo que tenga de 6 a 10 caracteres.
     Se asegura que el usuario no exista
     """
+    registro_exitoso = False 
     print(">>>Registrando nuevo usuario<<<")
     usuario = input("Usuario: ")
-    
-      
-    while True:
-        
+
+    while not registro_exitoso:
         contraseña = input("Contraseña (debe tener mínimo 6 caracteres, máximo 10): ")
         confirmar_contraseña = input("Confirmar Contraseña: ")
 
         if contraseña == confirmar_contraseña:
             if 6 <= len(contraseña) <= 10:
                 print("Contraseña válida. Usuario registrado con éxito.")
-                break
+                registro_exitoso = True
             else:
                 print("La contraseña debe tener entre 6 y 10 caracteres, por favor intenta de nuevo.")
         else:
             print("Las contraseñas no coinciden. Intenta de nuevo.")
-    
-    usuarios = cargar_usuarios()
 
- 
+    usuarios = cargar_usuarios()
+     
     if usuario not in usuarios:
         
         usuarios[usuario] = contraseña
@@ -90,7 +91,7 @@ def iniciar_sesion():
         if usuario in usuarios and usuarios[usuario] == contraseña:
             print(f"Bienvenido, {usuario}!")
             logueado = True
-            return
+            break
         else:
             print(f"Intento {intento + 1} de 3 : Usuario o contraseña incorrectos. Inténtelo de nuevo.")
 
@@ -104,7 +105,6 @@ def salir():
     print(">>>Saliendo de la aplicación.<<<")
     quit()
 
-###ESTRUCTURA PRINCIPAL###
 def mostrar_menu():
     """
     mostrar_menu
@@ -118,24 +118,3 @@ def mostrar_menu():
     print("1. Iniciar Sesión")
     print("2. Registrarse")
     print("3. Salir")
-
-while True:
-    
-    mostrar_menu()
-
-    opcion = input("Seleccione una opción: ")
-
-    switch_menu = {
-        '1': iniciar_sesion,
-        '2': registrar_usuario,
-        '3': salir
-    }
-
-    selected_option = switch_menu.get(opcion)
-
-    if selected_option:
-        selected_option()
-    else:
-        print("Opción no válida. Inténtelo de nuevo.")
-        
-help(registrar_usuario)
