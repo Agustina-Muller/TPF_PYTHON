@@ -89,13 +89,13 @@ def iniciar_sesion():
         usuarios = cargar_usuarios()
 
         if usuario in usuarios and usuarios[usuario] == contraseña:
-            print(f"Bienvenido, {usuario}!")
+            print(f"¡Hola, {usuario}!")
             logueado = True
             break
         else:
             print(f"Intento {intento + 1} de 3 : Usuario o contraseña incorrectos. Inténtelo de nuevo.")
 
-    print(f"Has alcanzado el número máximo de intentos. Volviendo al menú principal.")
+   
 
 def salir():
     """
